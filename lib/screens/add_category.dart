@@ -1,8 +1,8 @@
 import 'dart:io';
 
-import 'package:blue_thermal_printer_example/model/category_model.dart';
-import 'package:blue_thermal_printer_example/utils/shared_preferences_helper.dart';
-import 'package:blue_thermal_printer_example/utils/utils.dart';
+import 'package:pos_ticket/model/category_model.dart';
+import 'package:pos_ticket/utils/shared_preferences_helper.dart';
+import 'package:pos_ticket/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';

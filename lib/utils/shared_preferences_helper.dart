@@ -1,7 +1,7 @@
 import 'dart:convert';
 
-import 'package:blue_thermal_printer_example/model/category_model.dart';
-import 'package:blue_thermal_printer_example/model/item_model.dart';
+import 'package:pos_ticket/model/category_model.dart';
+import 'package:pos_ticket/model/item_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class SharedPreferencesHelper {

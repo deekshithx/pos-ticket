@@ -1,3 +1,3 @@
-# blue_thermal_printer_example
+# pos_ticket
 
 Demonstrates how to use the blue_thermal_printer plugin.

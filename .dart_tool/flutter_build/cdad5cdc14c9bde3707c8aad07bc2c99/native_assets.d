@@ -1,0 +1,1 @@
+ /Users/medfam/dee/pos-ticket/.dart_tool/flutter_build/cdad5cdc14c9bde3707c8aad07bc2c99/native_assets.yaml: 

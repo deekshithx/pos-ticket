@@ -1,10 +1,10 @@
 import 'dart:io';
 
-import 'package:blue_thermal_printer_example/model/category_model.dart';
-import 'package:blue_thermal_printer_example/model/item_model.dart';
-import 'package:blue_thermal_printer_example/utils/shared_preferences_helper.dart';
-import 'package:blue_thermal_printer_example/utils/utils.dart';
-import 'package:blue_thermal_printer_example/widgets/item_widget.dart';
+import 'package:pos_ticket/model/category_model.dart';
+import 'package:pos_ticket/model/item_model.dart';
+import 'package:pos_ticket/utils/shared_preferences_helper.dart';
+import 'package:pos_ticket/utils/utils.dart';
+import 'package:pos_ticket/widgets/item_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:image_picker/image_picker.dart';

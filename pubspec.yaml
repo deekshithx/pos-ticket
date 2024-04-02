@@ -1,4 +1,4 @@
-name: blue_thermal_printer_example
+name: pos_ticket
 description: Demonstrates how to use the blue_thermal_printer plugin.
 publish_to: https://pub.dev/packages/blue_thermal_printer
 
@@ -16,6 +16,9 @@ dependencies:
   image_picker: ^1.0.7
   shared_preferences: ^2.2.2
   intl: ^0.19.0
+  firebase_core: ^2.28.0
+  cloud_firestore: ^4.16.0
+  firebase_storage: ^11.7.0
 
 dev_dependencies:
   flutter_test:

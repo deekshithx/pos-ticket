@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:blue_thermal_printer_example/model/category_model.dart';
+import 'package:pos_ticket/model/category_model.dart';
 
 class ItemModel {
   const ItemModel({

@@ -1,4 +1,4 @@
-import 'package:blue_thermal_printer_example/model/item_model.dart';
+import 'package:pos_ticket/model/item_model.dart';
 import 'package:flutter/material.dart';
 
 Future showSnack(

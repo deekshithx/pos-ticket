@@ -1,8 +1,8 @@
 import 'dart:async';
 
-import 'package:blue_thermal_printer_example/home_screen.dart';
-import 'package:blue_thermal_printer_example/screens/turn_on_bluetooth.dart';
-import 'package:blue_thermal_printer_example/utils/shared_preferences_helper.dart';
+import 'package:pos_ticket/home_screen.dart';
+import 'package:pos_ticket/screens/turn_on_bluetooth.dart';
+import 'package:pos_ticket/utils/shared_preferences_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 

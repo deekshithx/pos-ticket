@@ -1,7 +1,7 @@
-import 'package:blue_thermal_printer_example/screens/add_category.dart';
-import 'package:blue_thermal_printer_example/screens/add_item.dart';
-import 'package:blue_thermal_printer_example/screens/pos_screen.dart';
-import 'package:blue_thermal_printer_example/utils/utils.dart';
+import 'package:pos_ticket/screens/add_category.dart';
+import 'package:pos_ticket/screens/add_item.dart';
+import 'package:pos_ticket/screens/pos_screen.dart';
+import 'package:pos_ticket/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
