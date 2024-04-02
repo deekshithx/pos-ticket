@@ -1,3 +1,3 @@
-# pos_ticket
+# Ganesh Darshini POS
 
 POS for Ganesh Darshini- Majestic
