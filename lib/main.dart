@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:firebase_core/firebase_core.dart';
 import 'package:pos_ticket/home_screen.dart';
 import 'package:pos_ticket/screens/turn_on_bluetooth.dart';
 import 'package:pos_ticket/utils/shared_preferences_helper.dart';
@@ -8,6 +9,14 @@ import 'package:flutter_blue_plus/flutter_blue_plus.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+      options: FirebaseOptions(
+    apiKey: 'AIzaSyAlvyq1UQfwZHxCqs4AEqCdwuUv26S0N4E',
+    appId: '1:853661487867:android:1dda40d192f97eecd8965e',
+    messagingSenderId: 'sendid',
+    projectId: 'pos-ticket',
+    storageBucket: 'pos-ticket.appspot.com',
+  ));
   await SharedPreferencesHelper.init();
   runApp(const POSApp());
 }
@@ -50,7 +59,12 @@ class _POSAppState extends State<POSApp> {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      color: Colors.lightBlue,
+      color: Colors.green,
+      theme: ThemeData(
+          floatingActionButtonTheme: FloatingActionButtonThemeData(
+            backgroundColor: Colors.green[200],
+          ),
+          primaryColor: Colors.greenAccent),
       home: screen,
       navigatorObservers: [BluetoothAdapterStateObserver()],
     );

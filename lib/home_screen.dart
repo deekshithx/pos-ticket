@@ -1,6 +1,9 @@
+import 'package:intl/intl.dart';
+import 'package:pos_ticket/firebase.dart';
 import 'package:pos_ticket/screens/add_category.dart';
 import 'package:pos_ticket/screens/add_item.dart';
 import 'package:pos_ticket/screens/pos_screen.dart';
+import 'package:pos_ticket/utils/shared_preferences_helper.dart';
 import 'package:pos_ticket/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
@@ -34,7 +37,7 @@ class _HomeScreenState extends State<HomeScreen> {
         case BlueThermalPrinter.CONNECTED:
           setState(() {
             _connected = true;
-            print("bluetooth device state: connected");
+            print("---------bluetooth device state: connected--------");
           });
           break;
         case BlueThermalPrinter.DISCONNECTED:
@@ -42,6 +45,10 @@ class _HomeScreenState extends State<HomeScreen> {
             _connected = false;
             print("bluetooth device state: disconnected");
           });
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(builder: (context) => HomeScreen()),
+              (route) => false);
+
           break;
         case BlueThermalPrinter.DISCONNECT_REQUESTED:
           setState(() {
@@ -60,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
             _connected = false;
             print("bluetooth device state: bluetooth off");
           });
+
           break;
         case BlueThermalPrinter.STATE_ON:
           setState(() {
@@ -101,14 +109,28 @@ class _HomeScreenState extends State<HomeScreen> {
       showSnack(context, 'Connect printer via bluetooth first');
   }
 
+  Future<int> getTodayTotal() async {
+    String todayDate = DateFormat('dd-MMM-yy').format(DateTime.now());
+    return await SharedPreferencesHelper.getInt(todayDate) ?? 0;
+  }
+
+  Future<int> lastTicketPrice() async {
+    String todayDate = DateFormat('dd-MMM-yy').format(DateTime.now());
+    return await SharedPreferencesHelper.getInt('last_ticket_$todayDate') ?? 0;
+  }
+
   @override
   Widget build(BuildContext context) {
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       floatingActionButton: FloatingActionButton(
           child: Icon(Icons.receipt),
           onPressed: () {
             Navigator.of(context)
-                .push(MaterialPageRoute(builder: (context) => PosScreen()));
+                .push(MaterialPageRoute(builder: (context) => PosScreen()))
+                .then((value) {
+              setState(() {});
+            });
           }),
       drawer: SafeArea(
         child: Drawer(
@@ -175,42 +197,97 @@ class _HomeScreenState extends State<HomeScreen> {
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            // ..._devices
-            //     .map(
-            //       (device) => ListTile(
-            //           onTap: () {
-            //             _connect(device);
-            //           },
-            //           tileColor: Colors.amber[100],
-            //           title: Text(device.name ?? ''),
-            //           subtitle: Text(device.connected ? 'Connected' : '')),
-            //     )
-            //     .toList(),
-            const SizedBox(height: 10),
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 50),
-            //   child: ElevatedButton(
-            //     style: ElevatedButton.styleFrom(backgroundColor: Colors.brown),
-            //     onPressed: () async {
-            //       TestPrint testPrint = TestPrint();
-            //       testPrint.sample(context, bluetooth: bluetooth);
-            //     },
-            //     child: const Text('PRINT TEST',
-            //         style: TextStyle(color: Colors.white)),
-            //   ),
-            // ),
-            // Padding(
-            //   padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 50),
-            //   child: ElevatedButton(
-            //     style: ElevatedButton.styleFrom(backgroundColor: Colors.brown),
-            //     onPressed: () async {},
-            //     child: const Text('Go to pos',
-            //         style: TextStyle(color: Colors.white)),
-            //   ),
-            // ),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.all(30),
+          child: Wrap(
+            children: <Widget>[
+              Container(
+                margin: EdgeInsets.all(12),
+                constraints: BoxConstraints(minWidth: size.width * 0.28),
+                padding: EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                    color: Colors.green[200],
+                    borderRadius: BorderRadius.circular(8)),
+                child: FutureBuilder<int>(
+                    future: getTodayTotal(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done)
+                        return Column(
+                          children: [
+                            Text(
+                              'Today\'s Revenue',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            Text(
+                              '₹ ' + (snapshot.data?.toString() ?? ''),
+                              style: TextStyle(fontSize: 40),
+                            ),
+                          ],
+                        );
+                      return SizedBox();
+                    }),
+              ),
+              Container(
+                margin: EdgeInsets.all(12),
+                constraints: BoxConstraints(minWidth: size.width * 0.28),
+                padding: EdgeInsets.all(18),
+                decoration: BoxDecoration(
+                    color: Colors.green[200],
+                    borderRadius: BorderRadius.circular(8)),
+                child: FutureBuilder<int>(
+                    future: lastTicketPrice(),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.done)
+                        return Column(
+                          children: [
+                            Text(
+                              'Latest Token Price',
+                              style: TextStyle(fontSize: 15),
+                            ),
+                            Text(
+                              '₹ ' + (snapshot.data?.toString() ?? ''),
+                              style: TextStyle(fontSize: 40),
+                            ),
+                          ],
+                        );
+                      return SizedBox();
+                    }),
+              ),
+              // ..._devices
+              //     .map(
+              //       (device) => ListTile(
+              //           onTap: () {
+              //             _connect(device);
+              //           },
+              //           tileColor: Colors.amber[100],
+              //           title: Text(device.name ?? ''),
+              //           subtitle: Text(device.connected ? 'Connected' : '')),
+              //     )
+              //     .toList(),
+              const SizedBox(height: 10),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 50),
+              //   child: ElevatedButton(
+              //     style: ElevatedButton.styleFrom(backgroundColor: Colors.brown),
+              //     onPressed: () async {
+              //       TestPrint testPrint = TestPrint();
+              //       testPrint.sample(context, bluetooth: bluetooth);
+              //     },
+              //     child: const Text('PRINT TEST',
+              //         style: TextStyle(color: Colors.white)),
+              //   ),
+              // ),
+              // Padding(
+              //   padding: const EdgeInsets.only(left: 10.0, right: 10.0, top: 50),
+              //   child: ElevatedButton(
+              //     style: ElevatedButton.styleFrom(backgroundColor: Colors.brown),
+              //     onPressed: () async {},
+              //     child: const Text('Go to pos',
+              //         style: TextStyle(color: Colors.white)),
+              //   ),
+              // ),
+            ],
+          ),
         ),
       ),
     );
@@ -221,10 +298,11 @@ class _HomeScreenState extends State<HomeScreen> {
     bluetooth.isConnected.then((isConnected) {
       if (isConnected == false) {
         bluetooth.connect(_device).catchError((error) {
-          showSnack(context, error.toString());
+          showSnack(context, 'Check printer');
           setState(() => _connected = false);
         });
-        setState(() => _connected = true);
+        // print('-----set true here------');
+        // setState(() => _connected = true);
       } else {
         setState(() {
           _connected = true;

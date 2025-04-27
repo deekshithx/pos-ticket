@@ -3,29 +3,14 @@ import 'package:pos_ticket/printerenum.dart';
 import 'package:pos_ticket/utils/shared_preferences_helper.dart';
 import 'package:pos_ticket/utils/utils.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:blue_thermal_printer/blue_thermal_printer.dart';
-import 'dart:io';
-import 'package:http/http.dart' as http;
 
 ///Test printing
 class PosPrint {
   Future<bool> sample(BuildContext context,
       {required BlueThermalPrinter bluetooth,
       required Map<ItemModel, int> selectedItems}) async {
-    DateTime now = DateTime.now();
-    String formattedDate = DateFormat('dd-MMM-yy HH:mm').format(now);
-    int prevInvoiceNumber =
-        await SharedPreferencesHelper.getInt('invoice_number') ?? 0;
-    await SharedPreferencesHelper.setInt(
-        'invoice_number', prevInvoiceNumber + 1);
-
-    // int total
-    await SharedPreferencesHelper.setInt(
-        'invoice_number', prevInvoiceNumber + 1);
-
     void divider() {
       bluetooth.printCustom('-----------------------------------------',
           PrintSize.medium.val, PrintAlign.center.val);
@@ -41,9 +26,23 @@ class PosPrint {
           .toList();
     }
 
-    return bluetooth.isConnected.then((isConnected) {
+    return bluetooth.isConnected.then((isConnected) async {
       if (isConnected == true) {
-        // bluetooth.printNewLine();
+        String formattedDate =
+            DateFormat('dd-MMM-yy HH:mm').format(DateTime.now());
+        int prevInvoiceNumber =
+            await SharedPreferencesHelper.getInt('invoice_number') ?? 0;
+        await SharedPreferencesHelper.setInt(
+            'invoice_number_$formattedDate', prevInvoiceNumber + 1);
+        await SharedPreferencesHelper.setInt(
+            'invoice_number_$formattedDate', prevInvoiceNumber + 1);
+        String todayDate = DateFormat('dd-MMM-yy').format(DateTime.now());
+        int totalIncome = await SharedPreferencesHelper.getInt(todayDate) ?? 0;
+        await SharedPreferencesHelper.setInt(
+            todayDate, totalIncome + int.parse(getTotal(selectedItems)));
+        await SharedPreferencesHelper.setInt(
+            'last_ticket_$todayDate', int.parse(getTotal(selectedItems)));
+
         bluetooth.printCustom(
           "Ganesh Darshini",
           PrintSize.boldMedium.val,
@@ -56,7 +55,9 @@ class PosPrint {
           PrintSize.bold.val,
         );
         divider();
+        bluetooth.printNewLine();
         itemsList();
+        bluetooth.printNewLine();
 
         divider();
         bluetooth.printCustom("Total Qty: ${getTotalQty(selectedItems)}",
@@ -73,6 +74,7 @@ class PosPrint {
         bluetooth.printNewLine();
         bluetooth.printNewLine();
         bluetooth.printNewLine();
+        // FirebaseHelper().set();
         return true;
       } else {
         showSnack(context, 'Printer not connected');

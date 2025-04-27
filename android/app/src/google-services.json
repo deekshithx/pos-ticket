@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "853661487867",
+    "project_id": "pos-ticket",
+    "storage_bucket": "pos-ticket.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:853661487867:android:1dda40d192f97eecd8965e",
+        "android_client_info": {
+          "package_name": "com.technexi.pos_ticket"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAlvyq1UQfwZHxCqs4AEqCdwuUv26S0N4E"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
